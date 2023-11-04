@@ -25,6 +25,7 @@ public class IndexController {
     private ValidateCodeService validateCodeService;
 
     //生成图片的验证码
+    @Operation(summary = "生成验证码的方法")
     @GetMapping(value = "/generateValidateCode")
     public Result<ValidateCodeVo> generateValidateCode() {
         ValidateCodeVo validateCodeVo = validateCodeService.generateValidateCode();
