@@ -9,4 +9,6 @@ public interface SysUserService {
     LoginVo login(LoginDto loginDto);
     //获取当前登录用户信息
     SysUser getUserInfo(String token);
+    //退出方法
+    void logout(String token);
 }
