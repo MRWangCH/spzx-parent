@@ -19,6 +19,7 @@
             <if test="roleName != null and roleName != ''">
                 and role_name like concat('%',#{roleName},'%')
             </if>
+            and is_deleted=0
         </where>
         order by id desc
     </select>
@@ -52,6 +53,12 @@
         update_time =  now()
         where
         id = #{id}
+    </update>
+
+
+    <!--角色删除的方法-->
+    <update id="delete">
+        update sys_role set is_deleted = 1 where id = #{roleId}
     </update>
 
 

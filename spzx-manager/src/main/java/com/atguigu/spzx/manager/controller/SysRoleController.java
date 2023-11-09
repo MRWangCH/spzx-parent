@@ -44,5 +44,13 @@ public class SysRoleController {
     }
 
 
+    //角色删除的方法
+    @Operation(summary = "删除角色")
+    @DeleteMapping(value = "/deleteById/{roleId}")
+    public Result deleteById(@PathVariable("roleId") Long roleId) {
+        sysRoleService.deleteById(roleId);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
 }
 
