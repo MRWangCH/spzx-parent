@@ -17,9 +17,24 @@
         from sys_role
         <where>
             <if test="roleName != null and roleName != ''">
-                and roleName like concat('%',#{roleName},'%')
+                and role_name like concat('%',#{roleName},'%')
             </if>
         </where>
         order by id desc
     </select>
+
+    <!--//添加角色-->
+    <insert id="save">
+        insert into sys_role (
+        id,
+        role_name,
+        role_code,
+        description)
+        values (
+        #{id},
+        #{roleName},
+        #{roleCode},
+        #{description})
+    </insert>
+
 </mapper>

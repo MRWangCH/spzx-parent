@@ -27,5 +27,12 @@ public class SysRoleController {
         return Result.build(pageInfo, ResultCodeEnum.SUCCESS);
     }
 
+    //角色添加的方法
+    @Operation(summary = "添加角色")
+    @PostMapping(value = "/saveSysRole")
+    public Result saveSysRole(@RequestBody SysRole sysRole) {
+        sysRoleService.saveSysRole(sysRole);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
 }
 
