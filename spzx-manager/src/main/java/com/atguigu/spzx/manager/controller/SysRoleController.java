@@ -10,12 +10,25 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping(value = "/admin/system/sysRole")
 public class SysRoleController {
 
     @Autowired
     private SysRoleService sysRoleService;
+
+
+    //查询所有角色
+    @Operation(summary = "查询所有角色")
+    @GetMapping("/findAllRoles")
+    public Result findAllRoles(){
+        Map<String, Object> map = sysRoleService.findAll();
+        return Result.build(map,ResultCodeEnum.SUCCESS);
+    }
+
+
 
     //角色的列表方法
     //current 当前页，limit每页显示记录数，sysRoleDto 角色名称对象
