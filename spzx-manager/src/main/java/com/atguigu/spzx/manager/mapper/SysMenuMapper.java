@@ -13,4 +13,8 @@ public interface SysMenuMapper {
     void save(SysMenu sysMenu);
     //菜单修改
     void update(SysMenu sysMenu);
+    //根据当前id查询其是否有子菜单
+    int selectCountById(Long id);
+    //菜单删除
+    void delete(Long id);
 }

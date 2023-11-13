@@ -5,6 +5,7 @@ import com.atguigu.spzx.model.entity.system.SysMenu;
 import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import io.swagger.v3.oas.annotations.Operation;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,14 @@ public class SysMenuController {
     @PostMapping("/update")
     public Result update(@RequestBody SysMenu sysMenu){
         sysMenuService.update(sysMenu);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    //菜单删除
+    @Operation(summary = "菜单删除")
+    @DeleteMapping("/removeById/{id}")
+    public Result removeById(@PathVariable("id") Long id){
+        sysMenuService.removeById(id);
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 

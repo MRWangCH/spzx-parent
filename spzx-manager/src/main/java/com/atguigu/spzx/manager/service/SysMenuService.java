@@ -11,4 +11,6 @@ public interface SysMenuService {
     void save(SysMenu sysMenu);
     //菜单修改
     void update(SysMenu sysMenu);
+    //菜单删除
+    void removeById(Long id);
 }

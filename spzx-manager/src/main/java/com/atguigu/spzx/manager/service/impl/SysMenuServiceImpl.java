@@ -1,9 +1,11 @@
 package com.atguigu.spzx.manager.service.impl;
 
+import com.atguigu.spzx.common.exception.GuiguException;
 import com.atguigu.spzx.manager.mapper.SysMenuMapper;
 import com.atguigu.spzx.manager.service.SysMenuService;
 import com.atguigu.spzx.manager.utils.MenuHelper;
 import com.atguigu.spzx.model.entity.system.SysMenu;
+import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -39,5 +41,17 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Override
     public void update(SysMenu sysMenu) {
         sysMenuMapper.update(sysMenu);
+    }
+
+    //菜单删除
+    @Override
+    public void removeById(Long id) {
+        //根据当前id查询其是否有子菜单
+        int count = sysMenuMapper.selectCountById(id);
+        if (count > 0) {
+            throw new GuiguException(ResultCodeEnum.NODE_ERROR);
+        }
+        //直接删除
+        sysMenuMapper.delete(id);
     }
 }
