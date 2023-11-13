@@ -35,4 +35,9 @@ public class SysMenuServiceImpl implements SysMenuService {
     public void save(SysMenu sysMenu) {
         sysMenuMapper.save(sysMenu);
     }
+    //菜单修改
+    @Override
+    public void update(SysMenu sysMenu) {
+        sysMenuMapper.update(sysMenu);
+    }
 }

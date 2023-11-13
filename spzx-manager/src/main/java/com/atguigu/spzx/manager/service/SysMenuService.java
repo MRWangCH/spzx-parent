@@ -9,4 +9,6 @@ public interface SysMenuService {
     List<SysMenu> findNodes();
     //菜单添加
     void save(SysMenu sysMenu);
+    //菜单修改
+    void update(SysMenu sysMenu);
 }

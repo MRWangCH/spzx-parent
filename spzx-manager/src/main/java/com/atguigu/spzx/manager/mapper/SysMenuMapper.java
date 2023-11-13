@@ -11,4 +11,6 @@ public interface SysMenuMapper {
     List<SysMenu> findAll();
     //菜单添加
     void save(SysMenu sysMenu);
+    //菜单修改
+    void update(SysMenu sysMenu);
 }
