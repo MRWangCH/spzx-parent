@@ -22,9 +22,9 @@ public class SysRoleController {
 
     //查询所有角色
     @Operation(summary = "查询所有角色")
-    @GetMapping("/findAllRoles")
-    public Result findAllRoles(){
-        Map<String, Object> map = sysRoleService.findAll();
+    @GetMapping("/findAllRoles/{userId}")
+    public Result findAllRoles(@PathVariable ("userId") Long userId){
+        Map<String, Object> map = sysRoleService.findAll(userId);
         return Result.build(map,ResultCodeEnum.SUCCESS);
     }
 
