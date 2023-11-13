@@ -29,4 +29,10 @@ public class SysMenuServiceImpl implements SysMenuService {
         List<SysMenu> treeList = MenuHelper.buildTree(sysMenuList);
         return treeList;
     }
+
+    //菜单添加
+    @Override
+    public void save(SysMenu sysMenu) {
+        sysMenuMapper.save(sysMenu);
+    }
 }

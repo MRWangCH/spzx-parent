@@ -7,4 +7,6 @@ import java.util.List;
 public interface SysMenuService {
     //菜单列表
     List<SysMenu> findNodes();
+    //菜单添加
+    void save(SysMenu sysMenu);
 }

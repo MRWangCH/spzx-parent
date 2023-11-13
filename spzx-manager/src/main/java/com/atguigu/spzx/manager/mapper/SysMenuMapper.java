@@ -9,4 +9,6 @@ import java.util.List;
 public interface SysMenuMapper {
     //1 查询所有菜单，返回List集合
     List<SysMenu> findAll();
+    //菜单添加
+    void save(SysMenu sysMenu);
 }

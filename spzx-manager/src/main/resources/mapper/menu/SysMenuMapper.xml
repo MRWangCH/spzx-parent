@@ -19,4 +19,22 @@
         order by sort_value
     </select>
 
+    <!--//菜单添加-->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_menu (
+            id,
+            parent_id,
+            title,
+            component,
+            sort_value,
+            status
+        ) values (
+                     #{id},
+                     #{parentId},
+                     #{title},
+                     #{component},
+                     #{sortValue},
+                     #{status}
+                 )
+    </insert>
 </mapper>
