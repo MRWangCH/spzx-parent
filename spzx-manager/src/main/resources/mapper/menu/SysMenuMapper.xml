@@ -76,6 +76,12 @@
     </update>
 
 
+<!--    //获取当前添加菜单的父菜单-->
+    <select id="selectParentMenu" resultMap="sysMenuMap">
+        select <include refid="columns"/> from sys_menu where id = #{parentId}
+    </select>
+
+
     <!--根据用户id查询用户可以操作的菜单-->
     <select id="findMenusByUserId" resultMap="sysMenuMap">
         SELECT DISTINCT m.*

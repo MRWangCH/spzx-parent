@@ -28,4 +28,10 @@
             (#{roleId} , #{menuInfo.id} , now() , now() , 0 , #{menuInfo.isHalf})
         </foreach>
     </insert>
+
+
+<!--    把父菜单的is_half改变成半开状态 1-->
+    <update id="updateSysRoleMenuIsHalf">
+        update sys_role_menu srm set srm.is_half = 1 where menu_id = #{menuId}
+    </update>
 </mapper>
