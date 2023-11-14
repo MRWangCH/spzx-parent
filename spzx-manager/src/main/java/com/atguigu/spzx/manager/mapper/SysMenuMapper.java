@@ -17,4 +17,6 @@ public interface SysMenuMapper {
     int selectCountById(Long id);
     //菜单删除
     void delete(Long id);
+    //查询用户可以操作的菜单
+    List<SysMenu> findMenusByUserId(Long userId);
 }
