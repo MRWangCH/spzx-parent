@@ -89,7 +89,7 @@ public class SysMenuServiceImpl implements SysMenuService {
         List<SysMenu> syMenuList = sysMenuMapper.findMenusByUserId(userId);
         //封装成要求的数据格式 返回
         List<SysMenu> sysMenuList = MenuHelper.buildTree(syMenuList);
-        List<SysMenuVo> sysMenuVos = this.buildMenus(syMenuList);
+        List<SysMenuVo> sysMenuVos = this.buildMenus(sysMenuList);
         return sysMenuVos;
     }
 
