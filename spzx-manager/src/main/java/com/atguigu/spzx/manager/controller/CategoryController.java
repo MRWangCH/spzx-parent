@@ -5,6 +5,7 @@ import com.atguigu.spzx.model.entity.product.Category;
 import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,14 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
+    //导出 文件的下载需要用到HttpServletResponse对象
+    @Operation(summary = "分类的导出")
+    @GetMapping("/exportData")
+    public void exportData(HttpServletResponse response){
+        categoryService.exportData(response);
+    }
+
 
     //分类列表，每次查询一层的数据
     //Select * from category where parent_id = id
