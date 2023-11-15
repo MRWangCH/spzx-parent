@@ -2,6 +2,7 @@ package com.atguigu.spzx.manager.service;
 
 import com.atguigu.spzx.model.entity.product.Category;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -11,4 +12,6 @@ public interface CategoryService {
 
     //文件导出
     void exportData(HttpServletResponse response);
+    //文件导入
+    void importData(MultipartFile file);
 }
