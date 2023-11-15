@@ -8,4 +8,8 @@ public interface BrandService {
     PageInfo<Brand> findByPage(Integer page, Integer limit);
     //品牌列表添加
     void save(Brand brand);
+    //品牌修改
+    void updateById(Brand brand);
+    //品牌删除
+    void deleteById(Long id);
 }

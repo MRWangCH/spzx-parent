@@ -35,4 +35,24 @@
                 now(),
                 0)
     </insert>
+
+<!--        //品牌修改-->
+    <update id="updateById" >
+        update brand set
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="logo != null and logo != ''">
+            logo = #{logo},
+        </if>
+        update_time =  now()
+        where
+        id = #{id}
+    </update>
+
+<!--    品牌删除-->
+    <update id="deleteById">
+        update brand set is_deleted = 1,update_time = now()
+        where id = #{id}
+    </update>
 </mapper>
