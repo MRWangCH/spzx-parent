@@ -9,12 +9,23 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/admin/product/brand")
 public class BrandController {
 
     @Autowired
     private BrandService brandService;
+
+    //查询所有的品牌
+    @Operation(summary = "查询所有的品牌")
+    @GetMapping("/findAll")
+    public Result findAll(){
+        List<Brand> list = brandService.findAll();
+        return Result.build(list,ResultCodeEnum.SUCCESS);
+    }
+
 
     //品牌列表查询
     @Operation(summary = "品牌的查询")
