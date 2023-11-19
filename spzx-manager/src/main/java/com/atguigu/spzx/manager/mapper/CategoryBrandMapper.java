@@ -11,4 +11,6 @@ import java.util.List;
 public interface CategoryBrandMapper {
     //分类品牌条件分页查询
     List<CategoryBrand> findByPage(CategoryBrandDto categoryBrandDto);
+    //分类品牌的添加
+    void save(CategoryBrand categoryBrand);
 }

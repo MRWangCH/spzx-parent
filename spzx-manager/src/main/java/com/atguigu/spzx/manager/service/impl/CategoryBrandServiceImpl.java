@@ -25,4 +25,10 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
         PageInfo<CategoryBrand> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
+
+    //分类品牌的添加
+    @Override
+    public void save(CategoryBrand categoryBrand) {
+        categoryBrandMapper.save(categoryBrand);
+    }
 }

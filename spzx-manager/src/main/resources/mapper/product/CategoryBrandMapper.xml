@@ -32,4 +32,24 @@
         order by cb.id desc
     </select>
 
+
+<!--      分类品牌的添加-->
+    <insert id="save">
+        insert into category_brand (
+            id,
+            brand_id,
+            category_id,
+            create_time,
+            update_time ,
+            is_deleted
+        ) values (
+                     #{id},
+                     #{brandId},
+                     #{categoryId},
+                     now(),
+                     now(),
+                     0
+                 )
+    </insert>
+
 </mapper>
