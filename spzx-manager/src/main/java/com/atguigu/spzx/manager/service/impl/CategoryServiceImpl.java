@@ -38,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (!CollectionUtils.isEmpty(categoryList)) {
             categoryList.forEach(category -> {
                 //判断每个分类是否有下一层分类
-                int count = categoryMapper.selectCountByParentId(category.getParentId());
+                int count = categoryMapper.selectCountByParentId(category.getId());
                 if (count > 0) {
                     category.setHasChildren(true);
                 } else {
