@@ -13,4 +13,8 @@ public interface CategoryBrandMapper {
     List<CategoryBrand> findByPage(CategoryBrandDto categoryBrandDto);
     //分类品牌的添加
     void save(CategoryBrand categoryBrand);
+    //分类品牌删除
+    void deleteById(Long id);
+    //分类品牌的修改
+    void updateById(CategoryBrand categoryBrand);
 }

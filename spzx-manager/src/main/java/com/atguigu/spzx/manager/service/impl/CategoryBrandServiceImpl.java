@@ -31,4 +31,17 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
     public void save(CategoryBrand categoryBrand) {
         categoryBrandMapper.save(categoryBrand);
     }
+
+    //分类品牌删除
+    @Override
+    public void deleteById(Long id) {
+        categoryBrandMapper.deleteById(id);
+    }
+
+
+    //分类品牌的修改
+    @Override
+    public void updateById(CategoryBrand categoryBrand) {
+        categoryBrandMapper.updateById(categoryBrand);
+    }
 }
