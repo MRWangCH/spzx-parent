@@ -64,6 +64,7 @@
     <select id="findAll" resultMap="productSpecMap">
         select <include refid="columns" />
         from product_spec
+        where is_deleted = 0
         order by id desc
     </select>
 
