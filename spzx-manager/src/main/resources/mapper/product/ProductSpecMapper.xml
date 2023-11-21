@@ -59,4 +59,12 @@
         where id = #{id}
     </update>
 
+
+<!--    //查询所有商品规格-->
+    <select id="findAll" resultMap="productSpecMap">
+        select <include refid="columns" />
+        from product_spec
+        order by id desc
+    </select>
+
 </mapper>

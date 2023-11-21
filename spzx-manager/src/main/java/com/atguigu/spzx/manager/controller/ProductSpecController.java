@@ -9,12 +9,24 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/admin/product/productSpec")
 public class ProductSpecController {
 
     @Autowired
     private ProductSpecService productSpecService;
+
+    //商品规格查询所有
+    @Operation(summary = "查询所有商品规格")
+    @GetMapping("findAll")
+    public Result findAll() {
+        List<ProductSpec> list = productSpecService.findAll();
+        return Result.build(list , ResultCodeEnum.SUCCESS) ;
+    }
+
+
 
     //商品规格管理列表分页查询
     @Operation(summary = "商品规格管理查询")

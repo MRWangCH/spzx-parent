@@ -16,4 +16,6 @@ public interface ProductSpecMapper {
     void update(ProductSpec productSpec);
     //商品规格管理删除
     void delete(Long id);
+    //查询所有商品规格
+    List<ProductSpec> findAll();
 }
