@@ -3,6 +3,7 @@ package com.atguigu.spzx.manager.controller;
 
 import com.atguigu.spzx.manager.service.CategoryBrandService;
 import com.atguigu.spzx.model.dto.product.CategoryBrandDto;
+import com.atguigu.spzx.model.entity.product.Brand;
 import com.atguigu.spzx.model.entity.product.CategoryBrand;
 import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
@@ -11,12 +12,22 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/admin/product/categoryBrand")
 public class CategoryBrandController {
 
     @Autowired
     private CategoryBrandService categoryBrandService;
+
+    //根据分类id查询对应的品牌数据
+    @Operation(summary = "根据分类id查询对应的品牌数据")
+    @GetMapping("/findBrandByCategoryId/{categoryId}")
+    public Result findBrandByCategoryId(@PathVariable("categoryId") Long categoryId){
+        List<Brand> list =  categoryBrandService.findBrandByCategoryId(categoryId);
+        return Result.build(list,ResultCodeEnum.SUCCESS);
+    }
 
     //分类品牌的添加
     @Operation(summary = "分类品牌添加")
