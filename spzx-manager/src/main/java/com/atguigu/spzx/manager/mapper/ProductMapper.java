@@ -12,4 +12,8 @@ public interface ProductMapper {
     List<Product> findByPage(ProductDto productDto);
     //保存商品基本信息到product表里面
     void save(Product product);
+    //根据id查询商品基本信息 product
+    Product findProductById(Long id);
+    //修改product
+    void updateById(Product product);
 }

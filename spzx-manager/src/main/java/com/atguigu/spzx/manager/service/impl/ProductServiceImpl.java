@@ -3,7 +3,6 @@ package com.atguigu.spzx.manager.service.impl;
 import com.atguigu.spzx.manager.mapper.ProductDetailsMapper;
 import com.atguigu.spzx.manager.mapper.ProductMapper;
 import com.atguigu.spzx.manager.mapper.ProductSkuMapper;
-import com.atguigu.spzx.manager.mapper.ProductSpecMapper;
 import com.atguigu.spzx.manager.service.ProductService;
 import com.atguigu.spzx.model.dto.product.ProductDto;
 import com.atguigu.spzx.model.entity.product.Product;
@@ -65,6 +64,44 @@ public class ProductServiceImpl implements ProductService {
         productDetail.setProductId(product.getId());
         productDetail.setImageUrls(product.getDetailsImageUrls());
         productDetailsMapper.save(productDetail);
+
+    }
+
+
+    //根据商品id查询商品信息
+    @Override
+    public Product getById(Long id) {
+        //1 根据id查询商品基本信息 product
+        Product product  = productMapper.findProductById(id);
+
+        //2根据商品id查询商品sku信息列表 product_sku
+        List<ProductSku> productSkuList = productSkuMapper.findProductSkuByProductId(id);
+        product.setProductSkuList(productSkuList);
+
+        //3 根据商品id查询商品详情数据 product_detail
+        ProductDetails productDetails = productDetailsMapper.findProductDetailsById(id);
+        String imageUrls = productDetails.getImageUrls();
+        product.setDetailsImageUrls(imageUrls);
+
+        return product;
+    }
+
+
+    //保存修改数据
+    @Override
+    public void update(Product product) {
+        //修改product
+        productMapper.updateById(product);
+        //修改product_sku
+        List<ProductSku> productSkuList = product.getProductSkuList();
+        productSkuList.forEach(productSku -> {
+            productSkuMapper.updateById(productSku);
+        });
+        //修改product_details
+        String detailsImageUrls = product.getDetailsImageUrls();
+        ProductDetails productDetails = productDetailsMapper.findProductDetailsById(product.getId());
+        productDetails.setImageUrls(detailsImageUrls);
+        productDetailsMapper.updateById(productDetails);
 
     }
 }

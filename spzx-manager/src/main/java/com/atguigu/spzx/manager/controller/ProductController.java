@@ -33,4 +33,21 @@ public class ProductController {
         productService.save(product);
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
+
+    //根据商品id查询商品信息
+    @Operation(summary = "根据商品id查询商品信息")
+    @GetMapping("/getById/{id}")
+    public Result getById(@PathVariable Long id){
+        Product product = productService.getById(id);
+        return Result.build(product, ResultCodeEnum.SUCCESS);
+    }
+
+    //保存修改数据
+    @Operation(summary = "保存修改数据")
+    @PutMapping("/updateById")
+    public Result updateById(@RequestBody Product product){
+        productService.update(product);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
 }

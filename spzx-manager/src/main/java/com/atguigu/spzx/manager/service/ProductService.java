@@ -9,4 +9,8 @@ public interface ProductService {
     PageInfo<Product> findByPage(Integer page, Integer limit, ProductDto productDto);
     //添加商品信息
     void save(Product product);
+    //根据商品id查询商品信息
+    Product getById(Long id);
+    //保存修改数据
+    void update(Product product);
 }
