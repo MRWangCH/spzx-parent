@@ -8,10 +8,7 @@ import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.github.pagehelper.PageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/admin/product/product")
@@ -26,5 +23,14 @@ public class ProductController {
     public Result list(@PathVariable("page")  Integer page, @PathVariable("limit") Integer limit, ProductDto productDto){
         PageInfo<Product> pageInfo = productService.findByPage(page, limit, productDto);
         return Result.build(pageInfo, ResultCodeEnum.SUCCESS);
+    }
+
+
+    //添加商品信息
+    @Operation(summary = "添加商品信息")
+    @PostMapping("/save")
+    public Result save(@RequestBody Product product){
+        productService.save(product);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 }

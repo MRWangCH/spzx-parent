@@ -10,4 +10,6 @@ import java.util.List;
 public interface ProductMapper {
     //商品管理列表分页查询
     List<Product> findByPage(ProductDto productDto);
+    //保存商品基本信息到product表里面
+    void save(Product product);
 }
