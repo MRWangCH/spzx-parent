@@ -15,6 +15,8 @@ public interface ProductService {
     void update(Product product);
     //删除商品
     void deleteById(Long id);
-//    //商品审核接口
-//    void updateAuditStatus(Long id, Integer auditStatus);
+    //商品审核接口
+    void updateAuditStatus(Long id, Integer auditStatus);
+    //商品上下架
+    void updateStatus(Long id, Integer status);
 }

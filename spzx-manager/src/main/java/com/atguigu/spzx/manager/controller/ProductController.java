@@ -61,12 +61,20 @@ public class ProductController {
     }
 
     //商品审核接口
-//    @Operation(summary = "商品审核接口")
-//    @GetMapping("/updateAuditStatus/{id}/{auditStatus}")
-//    public Result updateAuditStatus(@PathVariable Long id, @PathVariable Integer auditStatus) {
-//        productService.updateAuditStatus(id, auditStatus);
-//        return Result.build(null , ResultCodeEnum.SUCCESS) ;
-//    }
+    @Operation(summary = "商品审核接口")
+    @GetMapping("/updateAuditStatus/{id}/{auditStatus}")
+    public Result updateAuditStatus(@PathVariable Long id, @PathVariable Integer auditStatus) {
+        productService.updateAuditStatus(id, auditStatus);
+        return Result.build(null , ResultCodeEnum.SUCCESS) ;
+    }
 
+
+    //商品上下架
+    @Operation(summary = "商品上下架")
+    @GetMapping("/updateStatus/{id}/{status}")
+    public Result updateStatus(@PathVariable Long id, @PathVariable Integer status) {
+        productService.updateStatus(id, status);
+        return Result.build(null , ResultCodeEnum.SUCCESS) ;
+    }
 
 }

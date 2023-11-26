@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
             //商品id
             productSku.setProductId(product.getId());
             //sku名称
-            productSku.setSkuName(product.getName()+productSku.getSkuSpec());
+            productSku.setSkuName(product.getName() + productSku.getSkuSpec());
             // 设置销量
             productSku.setSaleNum(0);
             productSku.setStatus(0);
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getById(Long id) {
         //1 根据id查询商品基本信息 product
-        Product product  = productMapper.findProductById(id);
+        Product product = productMapper.findProductById(id);
 
         //2根据商品id查询商品sku信息列表 product_sku
         List<ProductSku> productSkuList = productSkuMapper.findProductSkuByProductId(id);
@@ -106,7 +106,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
     //删除商品
     @Override
     public void deleteById(Long id) {
@@ -116,5 +115,31 @@ public class ProductServiceImpl implements ProductService {
         productSkuMapper.deleteByProductId(id);
         //3 根据商品id删除product_detail表
         productDetailsMapper.deleteByProductId(id);
+    }
+
+
+    //商品审核接口
+    @Override
+    public void updateAuditStatus(Long id, Integer auditStatus) {
+        Product product = new Product();
+        product.setId(id);
+        if (auditStatus == 1) {
+            product.setAuditStatus(1);
+            product.setAuditMessage("审批通过");
+        } else {
+            product.setAuditStatus(-1);
+            product.setAuditMessage("审批不通过");
+        }
+        productMapper.updateById(product);
+    }
+
+
+    //商品上下架
+    @Override
+    public void updateStatus(Long id, Integer status) {
+        Product product = new Product();
+        product.setId(id);
+        product.setStatus(1);
+        productMapper.updateById(product);
     }
 }

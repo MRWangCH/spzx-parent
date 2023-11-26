@@ -104,7 +104,7 @@
         INNER JOIN category c2 ON c2.id = p.category2_id
         INNER JOIN category c3 ON c3.id = p.category3_id
         <where>
-            <if test="brandId != null and brandId = ''">
+            <if test="brandId != null and brandId != ''">
                 and p.brand_id = #{brandId}
             </if>
             <if test="category1Id != null and category1Id != ''">
