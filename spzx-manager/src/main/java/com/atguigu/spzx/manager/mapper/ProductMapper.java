@@ -16,4 +16,6 @@ public interface ProductMapper {
     Product findProductById(Long id);
     //修改product
     void updateById(Product product);
+    //根据商品id删除product表
+    void deleteById(Long id);
 }

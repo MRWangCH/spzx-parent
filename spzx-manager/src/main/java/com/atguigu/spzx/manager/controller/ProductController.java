@@ -7,6 +7,7 @@ import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.github.pagehelper.PageInfo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,5 +50,23 @@ public class ProductController {
         productService.update(product);
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
+
+
+    //删除商品
+    @Operation(summary = "删除商品")
+    @DeleteMapping("/deleteById/{id}")
+    public Result deleteById(@Parameter(name = "id", description = "商品id", required = true) @PathVariable Long id){
+        productService.deleteById(id);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    //商品审核接口
+//    @Operation(summary = "商品审核接口")
+//    @GetMapping("/updateAuditStatus/{id}/{auditStatus}")
+//    public Result updateAuditStatus(@PathVariable Long id, @PathVariable Integer auditStatus) {
+//        productService.updateAuditStatus(id, auditStatus);
+//        return Result.build(null , ResultCodeEnum.SUCCESS) ;
+//    }
+
 
 }

@@ -12,4 +12,6 @@ public interface ProductDetailsMapper {
     ProductDetails findProductDetailsById(Long id);
     //修改product_details
     void updateById(ProductDetails productDetails);
+    //根据商品id删除product_detail表
+    void deleteByProductId(Long id);
 }

@@ -104,4 +104,17 @@ public class ProductServiceImpl implements ProductService {
         productDetailsMapper.updateById(productDetails);
 
     }
+
+
+
+    //删除商品
+    @Override
+    public void deleteById(Long id) {
+        //1 根据商品id删除product表
+        productMapper.deleteById(id);
+        //2 根据商品id删除product_sku表
+        productSkuMapper.deleteByProductId(id);
+        //3 根据商品id删除product_detail表
+        productDetailsMapper.deleteByProductId(id);
+    }
 }

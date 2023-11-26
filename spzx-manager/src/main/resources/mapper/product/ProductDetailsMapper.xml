@@ -5,30 +5,29 @@
 
     <!-- 用于select查询公用抽取的列 -->
     <sql id="columns">
-        id,product_id,image_urls,create_time,update_time,is_deleted
+        id
+        ,product_id,image_urls,create_time,update_time,is_deleted
     </sql>
 
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
-        insert into product_details (
-            id,
-            product_id,
-            image_urls,
-            create_time,update_time,is_deleted
-        ) values (
-                     #{id},
-                     #{productId},
-                     #{imageUrls},
-                     now(),
-                     now(),
-                     0
-                 )
+        insert into product_details (id,
+                                     product_id,
+                                     image_urls,
+                                     create_time, update_time, is_deleted)
+        values (#{id},
+                #{productId},
+                #{imageUrls},
+                now(),
+                now(),
+                0)
     </insert>
 
 
-<!--    根据商品id查询商品详情数据-->
+    <!--    根据商品id查询商品详情数据-->
     <select id="findProductDetailsById" resultType="com.atguigu.spzx.model.entity.product.ProductDetails">
-        select <include refid="columns" />
+        select
+        <include refid="columns"/>
         from product_details
         where
         product_id = #{productId}
@@ -36,8 +35,8 @@
     </select>
 
 
-<!--    修改product_details-->
-    <update id="updateById" >
+    <!--    修改product_details-->
+    <update id="updateById">
         update product_details set
         <if test="productId != null and productId != ''">
             product_id = #{productId},
@@ -45,10 +44,17 @@
         <if test="imageUrls != null and imageUrls != ''">
             image_urls = #{imageUrls},
         </if>
-        update_time =  now()
+        update_time = now()
         where
         id = #{id}
     </update>
 
 
+    <!--    删除商品detail-->
+    <update id="deleteByProductId">
+        update product_details
+        set update_time = now(),
+            is_deleted  = 1
+        where product_id = #{productId}
+    </update>
 </mapper>

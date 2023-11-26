@@ -4,13 +4,15 @@
 
     <!-- 用于select查询公用抽取的列 -->
     <sql id="columns">
-        id,sku_code,sku_name,product_id,thumb_img,sale_price,market_price,cost_price,stock_num,sku_spec,weight,volume,status,create_time,update_time,is_deleted
+        id
+        ,sku_code,sku_name,product_id,thumb_img,sale_price,market_price,cost_price,stock_num,sku_spec,weight,volume,status,create_time,update_time,is_deleted
     </sql>
 
 
-<!--    根据商品id查询商品sku信息列表-->
+    <!--    根据商品id查询商品sku信息列表-->
     <select id="findProductSkuByProductId" resultType="com.atguigu.spzx.model.entity.product.ProductSku">
-        select <include refid="columns" />
+        select
+        <include refid="columns"/>
         from product_sku
         where product_id = #{productId}
         and is_deleted = 0
@@ -18,50 +20,46 @@
     </select>
 
 
-
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
-        insert into product_sku (
-            id,
-            sku_code,
-            sku_name,
-            product_id,
-            thumb_img,
-            sale_price,
-            market_price,
-            cost_price,
-            stock_num,
-            sku_spec,
-            weight,
-            volume,
-            status,
-            sale_num,
-            create_time,
-            update_time,
-            is_deleted
-        ) values (
-                     #{id},
-                     #{skuCode},
-                     #{skuName},
-                     #{productId},
-                     #{thumbImg},
-                     #{salePrice},
-                     #{marketPrice},
-                     #{costPrice},
-                     #{stockNum},
-                     #{skuSpec},
-                     #{weight},
-                     #{volume},
-                     #{status},
-                     #{saleNum},
-                     now(),
-                     now(),
-                     0
-                 )
+        insert into product_sku (id,
+                                 sku_code,
+                                 sku_name,
+                                 product_id,
+                                 thumb_img,
+                                 sale_price,
+                                 market_price,
+                                 cost_price,
+                                 stock_num,
+                                 sku_spec,
+                                 weight,
+                                 volume,
+                                 status,
+                                 sale_num,
+                                 create_time,
+                                 update_time,
+                                 is_deleted)
+        values (#{id},
+                #{skuCode},
+                #{skuName},
+                #{productId},
+                #{thumbImg},
+                #{salePrice},
+                #{marketPrice},
+                #{costPrice},
+                #{stockNum},
+                #{skuSpec},
+                #{weight},
+                #{volume},
+                #{status},
+                #{saleNum},
+                now(),
+                now(),
+                0)
     </insert>
 
 
-<!--    保存修改数据-->
-    <update id="updateById" >
+    <!--    保存修改数据-->
+    <update id="updateById">
         update product_sku set
         <if test="skuCode != null and skuCode != ''">
             sku_code = #{skuCode},
@@ -99,11 +97,19 @@
         <if test="status != null and status != ''">
             status = #{status},
         </if>
-        update_time =  now()
+        update_time = now()
         where
         id = #{id}
     </update>
 
+
+    <!--删除商品sku-->
+    <update id="deleteByProductId">
+        update product_sku
+        set update_time = now(),
+            is_deleted  = 1
+        where product_id = #{productId}
+    </update>
 
 
 </mapper>

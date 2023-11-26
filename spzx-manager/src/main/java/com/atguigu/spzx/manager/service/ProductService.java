@@ -13,4 +13,8 @@ public interface ProductService {
     Product getById(Long id);
     //保存修改数据
     void update(Product product);
+    //删除商品
+    void deleteById(Long id);
+//    //商品审核接口
+//    void updateAuditStatus(Long id, Integer auditStatus);
 }
