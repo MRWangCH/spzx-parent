@@ -7,6 +7,23 @@
         id,order_date,total_amount,total_num,create_time,update_time,is_deleted
     </sql>
 
+    <resultMap id="orderStatisticsMap" type="com.atguigu.spzx.model.entity.order.OrderStatistics" autoMapping="true"></resultMap>
+
+    <select id="selectList" resultMap="orderStatisticsMap">
+        select <include refid="columns" />
+        from order_statistics
+        <where>
+            <if test="createTimeBegin != null and createTimeBegin != ''">
+                and order_date >= #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd != ''">
+                and order_date &lt;= #{createTimeEnd}
+            </if>
+        </where>
+        order by order_date
+    </select>
+
+
     <!--    统计之后的数据添加到统计结果表中-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into order_statistics (
@@ -21,4 +38,7 @@
                      #{totalNum}
                  )
     </insert>
+    
+    
+
 </mapper>
