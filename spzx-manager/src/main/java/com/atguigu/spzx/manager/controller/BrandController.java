@@ -1,5 +1,7 @@
 package com.atguigu.spzx.manager.controller;
 
+import com.atguigu.spzx.common.log.annotation.Log;
+import com.atguigu.spzx.common.log.enums.OperatorType;
 import com.atguigu.spzx.manager.service.BrandService;
 import com.atguigu.spzx.model.entity.product.Brand;
 import com.atguigu.spzx.model.vo.common.Result;
@@ -19,6 +21,7 @@ public class BrandController {
     private BrandService brandService;
 
     //查询所有的品牌
+    @Log(title = "品牌管理:列表" ,businessType = 0,operatorType = OperatorType.MANAGE)
     @Operation(summary = "查询所有的品牌")
     @GetMapping("/findAll")
     public Result findAll(){
