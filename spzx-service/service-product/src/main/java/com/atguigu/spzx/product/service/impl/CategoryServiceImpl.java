@@ -5,6 +5,7 @@ import com.atguigu.spzx.model.entity.product.Category;
 import com.atguigu.spzx.product.mapper.CategoryMapper;
 import com.atguigu.spzx.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -46,6 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     //查询所有分类，树型封装
+    @Cacheable(value = "category", key = "'all'")
     @Override
     public List<Category> findCategoryTree() {
         //1 查询所有的分类，返回list集合
