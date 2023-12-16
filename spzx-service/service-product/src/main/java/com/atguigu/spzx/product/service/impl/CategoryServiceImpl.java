@@ -1,12 +1,16 @@
 package com.atguigu.spzx.product.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.spzx.model.entity.product.Category;
 import com.atguigu.spzx.product.mapper.CategoryMapper;
 import com.atguigu.spzx.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -16,10 +20,28 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
 
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
     //查询所有一级分类
     @Override
     public List<Category> selectOneCategory() {
-        return categoryMapper.selectOneCategory();
+        //1 先查询redis，是否有所有的一级分类
+        String categoryOneJson = redisTemplate.opsForValue().get("category:one");
+        //2 如果redis有一级分类直接返回
+        if (StringUtils.hasText(categoryOneJson)) {
+            //categoryOneJson字符串转成list集合
+            List<Category> existCategoryList = JSON.parseArray(categoryOneJson, Category.class);
+            return existCategoryList;
+        }
+        //3 如果没有，数据库查询一级分类写回redis，返回
+        List<Category> categoryList = categoryMapper.selectOneCategory();
+        //放入redis
+        //先将List转成String字符串再放
+        String string = JSON.toJSONString(categoryList);
+        redisTemplate.opsForValue().set("category:one", string,7 , TimeUnit.DAYS);
+        return categoryList;
     }
 
 

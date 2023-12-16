@@ -1,6 +1,8 @@
 server:
   port: 8511
 
+
+
 spring:
   application:
     name: service-product
@@ -14,6 +16,11 @@ spring:
     url: jdbc:mysql://localhost:3306/db_spzx?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 123456
+  data:
+    redis:
+      host: 192.168.150.133
+      port: 6379
+      password: 123456
 
 mybatis:
   config-location: classpath:mybatis-config.xml
