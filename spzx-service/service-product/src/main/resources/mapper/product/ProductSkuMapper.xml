@@ -67,4 +67,22 @@
             order by sku.sale_price desc
         </if>
     </select>
+
+<!--    根据skuid获取sku信息-->
+    <select id="getById" resultMap="productSkuMap">
+        select <include refid="columns" />
+        from product_sku
+        where
+        id = #{id}
+    </select>
+
+
+<!--    根据商品id获取商品所有的sku列表-->
+    <select id="findByProductId" resultMap="productSkuMap">
+        select <include refid="columns" />
+        from product_sku
+        where
+        product_id = #{productId}
+    </select>
+
 </mapper>
