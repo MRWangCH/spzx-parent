@@ -7,6 +7,7 @@ import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +22,13 @@ public class SmsServiceImpl implements SmsService {
     //发送短息验证码
     @Override
     public void sendCode(String phone) {
+
+        String code = redisTemplate.opsForValue().get(phone);
+        if (StringUtils.hasText(code)) {
+            return;
+        }
         //1 生成验证码 4位
-        String code = RandomStringUtils.randomNumeric(6);
+        code = RandomStringUtils.randomNumeric(6);
         //2 生成的验证码放到redis，设置过期时间
         redisTemplate.opsForValue().set(phone,code,5, TimeUnit.MINUTES);
         //3 向手机号发送验证码
