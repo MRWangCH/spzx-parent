@@ -1,16 +1,23 @@
 package com.atguigu.spzx.user.service.impl;
 
-import com.alibaba.excel.read.listener.ReadListener;
+import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
 import com.atguigu.spzx.common.exception.GuiguException;
+import com.atguigu.spzx.model.dto.h5.UserLoginDto;
 import com.atguigu.spzx.model.dto.h5.UserRegisterDto;
 import com.atguigu.spzx.model.entity.user.UserInfo;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
+import com.atguigu.spzx.model.vo.h5.UserInfoVo;
 import com.atguigu.spzx.user.mapper.UserInfoMapper;
 import com.atguigu.spzx.user.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
+
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -55,5 +62,47 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfoMapper.save(userInfo);
         //5 从redis中删除验证码
         redisTemplate.delete(username);
+    }
+
+
+    //会员登录
+    @Override
+    public String login(UserLoginDto userLoginDto) {
+        //1 获取用户名以及密码
+        String username = userLoginDto.getUsername();
+        String password = userLoginDto.getPassword();
+        //2 根据用户名查询数据库
+        UserInfo userInfo = userInfoMapper.selectByUsername(username);
+        //3 比较密码是否一致
+        String dataBasePassword = userInfo.getPassword();
+        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
+        if (!dataBasePassword.equals(md5Password)){
+            throw new GuiguException(ResultCodeEnum.LOGIN_ERROR);
+        }
+        //4 校验用户是否被禁用
+        if (userInfo.getStatus() == 0){
+            throw new GuiguException(ResultCodeEnum.ACCOUNT_STOP);
+        }
+        //5 生成token
+        String token = UUID.randomUUID().toString().replaceAll("-", "");
+        //6 把用户信息放入redis
+        redisTemplate.opsForValue().set("user:spzx:" + token, JSON.toJSONString(userInfo), 30, TimeUnit.MINUTES);
+        //7 返回token
+        return token;
+    }
+
+
+    //获取当前登录用户信息
+    @Override
+    public UserInfoVo getCurrentUserInfo(String token) {
+        //1 从redis里根据token获取用户信息
+        String userJson = redisTemplate.opsForValue().get("user:spzx:" + token);
+        if (!StringUtils.hasText(userJson)){
+            throw new GuiguException(ResultCodeEnum.LOGIN_AUTH);
+        }
+        UserInfo userInfo = JSON.parseObject(userJson, UserInfo.class);
+        UserInfoVo userInfoVo = new UserInfoVo();
+        BeanUtil.copyProperties(userInfo, userInfoVo);
+        return userInfoVo;
     }
 }
