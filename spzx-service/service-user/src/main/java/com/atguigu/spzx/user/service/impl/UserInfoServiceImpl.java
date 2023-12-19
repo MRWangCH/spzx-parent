@@ -87,7 +87,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         //5 生成token
         String token = UUID.randomUUID().toString().replaceAll("-", "");
         //6 把用户信息放入redis
-        redisTemplate.opsForValue().set("user:spzx:" + token, JSON.toJSONString(userInfo), 30, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("user:spzx:" + token, JSON.toJSONString(userInfo), 30, TimeUnit.DAYS);
         //7 返回token
         return token;
     }
@@ -96,7 +96,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     //获取当前登录用户信息
     @Override
     public UserInfoVo getCurrentUserInfo(String token) {
-        //1 从redis里根据token获取用户信息
+//        1 从redis里根据token获取用户信息
 //        String userJson = redisTemplate.opsForValue().get("user:spzx:" + token);
 //        if (!StringUtils.hasText(userJson)){
 //            throw new GuiguException(ResultCodeEnum.LOGIN_AUTH);

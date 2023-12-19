@@ -61,7 +61,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         }
 
         //判断token是否为空
-        if (StringUtils.isEmpty(token)){
+        if (!StringUtils.isEmpty(token)){
             //根据token查redis
             String userJson = redisTemplate.opsForValue().get("user:spzx:" + token);
             if (StringUtils.isEmpty(userJson)){
