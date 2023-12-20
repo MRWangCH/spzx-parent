@@ -40,4 +40,12 @@ public class ProductController {
        return Result.build(pageInfo, ResultCodeEnum.SUCCESS);
     }
 
+
+
+    //用于远程调用，根据skuid返回sku信息
+    @GetMapping(value = "/getBySkuId/{skuId}")
+    public ProductSku getBySkuId(@PathVariable Long skuId){
+        ProductSku productSku = productService.getBySkuId(skuId);
+        return productSku;
+    }
 }

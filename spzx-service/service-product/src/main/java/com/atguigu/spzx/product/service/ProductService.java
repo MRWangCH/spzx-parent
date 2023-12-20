@@ -14,4 +14,6 @@ public interface ProductService {
     PageInfo<ProductSku> findByPage(Integer page, Integer limit, ProductSkuDto productSkuDto);
     //商品详情
     ProductItemVo item(Long skuId);
+    //用于远程调用，根据skuid返回sku信息
+    ProductSku getBySkuId(Long skuId);
 }

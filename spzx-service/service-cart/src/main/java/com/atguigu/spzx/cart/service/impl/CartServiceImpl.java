@@ -2,6 +2,7 @@ package com.atguigu.spzx.cart.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.atguigu.spzx.cart.service.CartService;
+import com.atguigu.spzx.feign.product.ProductFeignClient;
 import com.atguigu.spzx.model.entity.h5.CartInfo;
 import com.atguigu.spzx.model.entity.product.ProductSku;
 import com.atguigu.spzx.model.entity.user.UserInfo;
@@ -18,6 +19,9 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    private ProductFeignClient productFeignClient;
 
     private String getCartKey(Long userId) {
         //定义key user:cart:userId
@@ -51,7 +55,7 @@ public class CartServiceImpl implements CartService {
             cartInfo = new CartInfo();
 
             //TODO 远程调用实现 根据skuid获取商品信息
-            ProductSku productSku = null;
+            ProductSku productSku = productFeignClient.getBySkuId(skuId);
             cartInfo.setCartPrice(productSku.getSalePrice());
             cartInfo.setSkuNum(skuNum);
             cartInfo.setSkuId(skuId);

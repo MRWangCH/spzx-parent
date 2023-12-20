@@ -81,4 +81,13 @@ public class ProductServiceImpl implements ProductService {
         productItemVo.setSpecValueList(JSON.parseArray(product.getSpecValue()));
         return productItemVo;
     }
+
+
+
+    //用于远程调用，根据skuid返回sku信息
+    @Override
+    public ProductSku getBySkuId(Long skuId) {
+        ProductSku productSku = productSkuMapper.getById(skuId);
+        return productSku;
+    }
 }
