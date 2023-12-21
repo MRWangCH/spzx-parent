@@ -6,11 +6,15 @@ import com.atguigu.spzx.feign.product.ProductFeignClient;
 import com.atguigu.spzx.model.entity.h5.CartInfo;
 import com.atguigu.spzx.model.entity.product.ProductSku;
 import com.atguigu.spzx.model.entity.user.UserInfo;
+import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.utils.AuthContextUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,4 +99,15 @@ public class CartServiceImpl implements CartService {
         }
         return new ArrayList<>();
     }
+
+
+    //删除购物车商品
+    @Override
+    public void deleteCart(Long skuId) {
+        Long userId = AuthContextUtil.getUserInfo().getId();
+        String cartKey = this.getCartKey(userId);
+        redisTemplate.opsForHash().delete(cartKey, String.valueOf(skuId));
+    }
+
+
 }

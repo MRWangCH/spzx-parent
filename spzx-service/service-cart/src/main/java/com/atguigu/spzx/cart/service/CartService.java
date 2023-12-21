@@ -9,4 +9,6 @@ public interface CartService {
     void addToCart(Long skuId, Integer skuNum);
     //查询购物车
     List<CartInfo> getCartList();
+    //删除购物车商品
+    void deleteCart(Long skuId);
 }
