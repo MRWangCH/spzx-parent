@@ -70,4 +70,13 @@ public class CartController {
         cartService.clearCart();
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
+
+
+    //远程调用：订单结算时，获取购物车选中商品列表
+    @Operation(summary="选中的购物车")
+    @GetMapping(value = "/auth/getAllCkecked")
+    public List<CartInfo> getAllCkecked() {
+        List<CartInfo> list = cartService.getAllCkecked();
+        return list;
+    }
 }
