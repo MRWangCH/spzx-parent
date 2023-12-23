@@ -11,4 +11,6 @@ public interface CartService {
     List<CartInfo> getCartList();
     //删除购物车商品
     void deleteCart(Long skuId);
+    //更新购物车商品选中状态
+    void checkCart(Long skuId, Integer isChecked);
 }

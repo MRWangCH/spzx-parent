@@ -5,16 +5,11 @@ import com.atguigu.spzx.cart.service.CartService;
 import com.atguigu.spzx.feign.product.ProductFeignClient;
 import com.atguigu.spzx.model.entity.h5.CartInfo;
 import com.atguigu.spzx.model.entity.product.ProductSku;
-import com.atguigu.spzx.model.entity.user.UserInfo;
-import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.utils.AuthContextUtil;
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,5 +104,24 @@ public class CartServiceImpl implements CartService {
         redisTemplate.opsForHash().delete(cartKey, String.valueOf(skuId));
     }
 
+
+    //更新购物车商品选中状态
+    @Override
+    public void checkCart(Long skuId, Integer isChecked) {
+        //1 构建redis里面的key的值，根据当前登录用户的id取得
+        Long userId = AuthContextUtil.getUserInfo().getId();
+        String cartKey = this.getCartKey(userId);
+        //2 判断key是否包含field
+        Boolean hasKey = redisTemplate.opsForHash().hasKey(cartKey, String.valueOf(skuId));
+        if (hasKey){
+            //3 根据key + field把value获取出来
+            String cartInfoString = redisTemplate.opsForHash().get(cartKey, String.valueOf(skuId)).toString();
+            //4 更新value里面选中状态
+            CartInfo cartInfo = JSON.parseObject(cartInfoString, CartInfo.class);
+            cartInfo.setIsChecked(isChecked);
+            //5 放回redis中
+            redisTemplate.opsForHash().put(cartKey, String.valueOf(skuId), JSON.toJSONString(cartInfo));
+        }
+    }
 
 }
