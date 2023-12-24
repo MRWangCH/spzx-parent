@@ -3,7 +3,6 @@ package com.atguigu.spzx.feign.cart;
 
 import com.atguigu.spzx.model.entity.h5.CartInfo;
 import com.atguigu.spzx.model.vo.common.Result;
-import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
