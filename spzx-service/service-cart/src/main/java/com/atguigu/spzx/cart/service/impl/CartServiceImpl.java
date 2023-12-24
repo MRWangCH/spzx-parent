@@ -57,7 +57,7 @@ public class CartServiceImpl implements CartService {
             //远程调用实现nacos+opeFeign实现，根据skuid获取sku信息
             cartInfo = new CartInfo();
 
-            //TODO 远程调用实现 根据skuid获取商品信息
+            //远程调用实现 根据skuid获取商品信息
             ProductSku productSku = productFeignClient.getBySkuId(skuId);
             cartInfo.setCartPrice(productSku.getSalePrice());
             cartInfo.setSkuNum(skuNum);
@@ -173,6 +173,22 @@ public class CartServiceImpl implements CartService {
             return cartInfoList;
         }
         return new ArrayList<>();
+    }
+
+    //远程调用：删除生成订单的购物车商品
+    @Override
+    public void deleteChecked() {
+        //1 获取userId，构建key
+        Long userId = AuthContextUtil.getUserInfo().getId();
+        String cartKey = this.getCartKey(userId);
+        //2 根据key获取redis中所有value的值
+        List<Object> objectList = redisTemplate.opsForHash().values(cartKey);
+        if (!CollectionUtils.isEmpty(objectList)){
+            //删除选中的
+            objectList.stream().map(object -> JSON.parseObject(object.toString(), CartInfo.class))
+                    .filter(cartInfo -> cartInfo.getIsChecked() == 1)
+                    .forEach(cartInfo -> redisTemplate.opsForHash().delete(cartKey, String.valueOf(cartInfo.getSkuId())));
+        }
     }
 
 }

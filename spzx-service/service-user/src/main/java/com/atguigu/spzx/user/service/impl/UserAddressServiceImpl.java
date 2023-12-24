@@ -22,4 +22,10 @@ public class UserAddressServiceImpl implements UserAddressService {
         Long userId = AuthContextUtil.getUserInfo().getId();
         return userAddressMapper.findUserAddressList(userId);
     }
+
+    //根据id获取收货的地址信息
+    @Override
+    public UserAddress getUserAddress(Long id) {
+        return userAddressMapper.getUserAddress(id);
+    }
 }

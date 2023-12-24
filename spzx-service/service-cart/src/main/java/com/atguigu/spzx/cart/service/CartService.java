@@ -19,4 +19,6 @@ public interface CartService {
     void clearCart();
     //远程调用：订单结算时，获取购物车选中商品列表
     List<CartInfo> getAllCkecked();
+    //远程调用：删除生成订单的购物车商品
+    void deleteChecked();
 }
