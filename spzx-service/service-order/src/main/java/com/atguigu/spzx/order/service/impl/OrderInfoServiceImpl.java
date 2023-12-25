@@ -19,6 +19,8 @@ import com.atguigu.spzx.order.mapper.OrderItemMapper;
 import com.atguigu.spzx.order.mapper.OrderLogMapper;
 import com.atguigu.spzx.order.service.OrderInfoService;
 import com.atguigu.spzx.utils.AuthContextUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -165,5 +167,46 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Override
     public OrderInfo getOrderInfo(Long orderId) {
         return orderInfoMapper.getById(orderId);
+    }
+
+
+    //立即购买
+    @Override
+    public TradeVo buy(Long skuId) {
+        //封装
+        List<OrderItem> orderItemList = new ArrayList<>();
+        ProductSku productSku = productFeignClient.getBySkuId(skuId);
+        OrderItem orderItem = new OrderItem();
+        orderItem.setSkuId(skuId);
+        orderItem.setSkuName(productSku.getSkuName());
+        orderItem.setSkuNum(1);
+        orderItem.setSkuPrice(productSku.getSalePrice());
+        orderItem.setThumbImg(productSku.getThumbImg());
+        orderItemList.add(orderItem);
+        //封装
+        TradeVo tradeVo = new TradeVo();
+        tradeVo.setOrderItemList(orderItemList);
+        //返回
+        tradeVo.setTotalAmount(productSku.getSalePrice());
+        return tradeVo;
+    }
+
+
+    //获取订单分页列表
+    @Override
+    public PageInfo<OrderInfo> findOrderPage(Integer page, Integer limit, Integer orderStatus) {
+        PageHelper.startPage(page, limit);
+        //查询订单信息
+        Long userId = AuthContextUtil.getUserInfo().getId();
+        List<OrderInfo> orderInfoList = orderInfoMapper.findUserPage(userId, orderStatus);
+
+        //订单里面所有订单项
+        orderInfoList.forEach(orderInfo -> {
+            //订单id查询订单里的订单项
+            List<OrderItem> orderItemList = orderItemMapper.findByOrderId(orderInfo.getId());
+            //封装
+            orderInfo.setOrderItemList(orderItemList);
+        });
+        return new PageInfo<>(orderInfoList);
     }
 }

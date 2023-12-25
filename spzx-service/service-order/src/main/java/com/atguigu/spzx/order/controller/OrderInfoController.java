@@ -6,6 +6,7 @@ import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.h5.TradeVo;
 import com.atguigu.spzx.order.service.OrderInfoService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,5 +43,22 @@ public class OrderInfoController {
     public Result getOrderInfo(@PathVariable Long orderId){
         OrderInfo orderInfo = orderInfoService.getOrderInfo(orderId);
         return Result.build(orderInfo,ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "立即购买")
+    @GetMapping("auth/buy/{skuId}")
+    public Result buy(@PathVariable Long skuId){
+        TradeVo tradeVo = orderInfoService.buy(skuId);
+        return Result.build(tradeVo, ResultCodeEnum.SUCCESS);
+    }
+
+
+    @Operation(summary = "获取订单分页列表")
+    @GetMapping("auth/{page}/{limit}")
+    public Result<PageInfo<OrderInfo>> list(@PathVariable Integer page,
+                                            @PathVariable Integer limit,
+                                            @RequestParam(required = false, defaultValue = "") Integer orderStatus ){
+        PageInfo<OrderInfo> pageInfo = orderInfoService.findOrderPage(page, limit, orderStatus);
+        return Result.build(pageInfo, ResultCodeEnum.SUCCESS);
     }
 }
