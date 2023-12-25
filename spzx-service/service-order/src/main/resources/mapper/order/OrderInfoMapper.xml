@@ -64,4 +64,10 @@
                      #{cancelReason}
                  )
     </insert>
+
+    <select id="getById" resultMap="orderInfoMap">
+        select <include refid="columns"/>
+        from order_info
+        where id = #{orderId}
+    </select>
 </mapper>

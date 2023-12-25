@@ -1,6 +1,7 @@
 package com.atguigu.spzx.order.controller;
 
 import com.atguigu.spzx.model.dto.h5.OrderInfoDto;
+import com.atguigu.spzx.model.entity.order.OrderInfo;
 import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.h5.TradeVo;
@@ -33,5 +34,13 @@ public class OrderInfoController {
     public Result trade() {
         TradeVo tradeVo = orderInfoService.getTread();
         return Result.build(tradeVo, ResultCodeEnum.SUCCESS);
+    }
+
+
+    @Operation(summary = "获取订单信息")
+    @GetMapping("/auth/{orderId}")
+    public Result getOrderInfo(@PathVariable Long orderId){
+        OrderInfo orderInfo = orderInfoService.getOrderInfo(orderId);
+        return Result.build(orderInfo,ResultCodeEnum.SUCCESS);
     }
 }
