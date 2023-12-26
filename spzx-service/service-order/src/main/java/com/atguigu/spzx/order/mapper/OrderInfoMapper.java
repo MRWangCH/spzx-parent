@@ -13,4 +13,6 @@ public interface OrderInfoMapper {
     OrderInfo getById(Long orderId);
     //根据用户id和订单状态查询
     List<OrderInfo> findUserPage(Long userId, Integer orderStatus);
+    //远程调用：获取订单信息
+    OrderInfo getOrderInfoByOrderNo(String orderNo);
 }

@@ -61,4 +61,13 @@ public class OrderInfoController {
         PageInfo<OrderInfo> pageInfo = orderInfoService.findOrderPage(page, limit, orderStatus);
         return Result.build(pageInfo, ResultCodeEnum.SUCCESS);
     }
+
+    //远程调用：根据订单编号获取订单信息
+    @Operation(summary = "获取订单信息")
+    @GetMapping("/auth/getOrderInfoByOrderNo/{orderNo}")
+    public OrderInfo getOrderInfoByOrderNo(@Parameter(name = "orderId", description = "订单id", required = true)
+                                                   @PathVariable String orderNo){
+        OrderInfo orderInfo =  orderInfoService.getOrderInfoByOrderNo(orderNo);
+        return orderInfo;
+    }
 }
