@@ -19,6 +19,8 @@ spring:
       host: 192.168.150.133
       port: 6379
       password: 123456
+  config:
+    import: application-alipay.yml
 
 mybatis:
   config-location: classpath:mybatis-config.xml
