@@ -9,4 +9,6 @@ public interface PaymentInfoMapper {
     PaymentInfo getByOrderNo(String orderNo);
     //添加
     void save(PaymentInfo paymentInfo);
+    //更新订单状态
+    void updatePaymentInfo(PaymentInfo paymentInfo);
 }

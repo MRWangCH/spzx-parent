@@ -1,5 +1,6 @@
 package com.atguigu.spzx.pay.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.spzx.feign.order.OrderFeignClient;
 import com.atguigu.spzx.model.entity.order.OrderInfo;
 import com.atguigu.spzx.model.entity.order.OrderItem;
@@ -8,6 +9,9 @@ import com.atguigu.spzx.pay.mapper.PaymentInfoMapper;
 import com.atguigu.spzx.pay.service.PaymentInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.Map;
 
 @Service
 public class PaymentInfoServiceImpl implements PaymentInfoService {
@@ -44,5 +48,26 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
             paymentInfoMapper.save(paymentInfo);
         }
         return paymentInfo;
+    }
+
+
+    //支付完成后更新状态
+    @Override
+    public void updatePaymentStatus(Map<String, String> map) {
+        //1 根据订单号查新支付信息
+        PaymentInfo paymentInfo = paymentInfoMapper.getByOrderNo(map.get("out_trade_no"));
+        //2 判断支付记录已经完成了支付，
+        if (paymentInfo.getPaymentStatus() == 1){
+            return;
+        }
+        //3 没有完成才更新
+        paymentInfo.setPaymentStatus(1);
+        paymentInfo.setCallbackTime(new Date());
+        paymentInfo.setCallbackContent(JSON.toJSONString(map));
+        paymentInfoMapper.updatePaymentInfo(paymentInfo);
+
+        //TODO 更新订单状态
+
+        //TODO 更新销量
     }
 }
