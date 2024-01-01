@@ -18,4 +18,6 @@ public interface OrderInfoService {
     PageInfo<OrderInfo> findOrderPage(Integer page, Integer limit, Integer orderStatus);
     //远程调用：获取订单信息
     OrderInfo getOrderInfoByOrderNo(String orderNo);
+    // 远程调用：更新订单状态
+    void updateOrderStatus(String orderNo);
 }

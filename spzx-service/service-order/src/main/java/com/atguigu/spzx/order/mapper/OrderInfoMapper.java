@@ -15,4 +15,6 @@ public interface OrderInfoMapper {
     List<OrderInfo> findUserPage(Long userId, Integer orderStatus);
     //远程调用：获取订单信息
     OrderInfo getOrderInfoByOrderNo(String orderNo);
+    //修改订单状态
+    void updateById(OrderInfo orderInfo);
 }

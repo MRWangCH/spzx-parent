@@ -70,4 +70,13 @@ public class OrderInfoController {
         OrderInfo orderInfo =  orderInfoService.getOrderInfoByOrderNo(orderNo);
         return orderInfo;
     }
+
+
+    // 远程调用：更新订单状态
+    @Operation(summary = "获取订单分页列表")
+    @GetMapping("auth/updateOrderStatusPayed/{orderNo}")
+    public Result updateOrderStatus(@PathVariable(value = "orderNo") String orderNo) {
+        orderInfoService.updateOrderStatus(orderNo);
+        return Result.build(null , ResultCodeEnum.SUCCESS) ;
+    }
 }

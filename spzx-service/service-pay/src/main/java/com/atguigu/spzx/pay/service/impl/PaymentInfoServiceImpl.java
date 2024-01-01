@@ -66,8 +66,8 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
         paymentInfo.setCallbackContent(JSON.toJSONString(map));
         paymentInfoMapper.updatePaymentInfo(paymentInfo);
 
-        //TODO 更新订单状态
-
-        //TODO 更新销量
+        //更新订单状态
+        orderFeignClient.updateOrderStatus(paymentInfo.getOrderNo());
     }
+
 }

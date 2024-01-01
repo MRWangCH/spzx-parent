@@ -27,6 +27,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -217,5 +218,16 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         List<OrderItem> orderItemList = orderItemMapper.findByOrderId(orderInfo.getId());
         orderInfo.setOrderItemList(orderItemList);
         return orderInfo;
+    }
+
+
+    // 远程调用：更新订单状态
+    @Override
+    public void updateOrderStatus(String orderNo) {
+        OrderInfo orderInfo = orderInfoMapper.getOrderInfoByOrderNo(orderNo);
+        orderInfo.setOrderStatus(1);
+        orderInfo.setPaymentTime(new Date());
+        orderInfo.setPayType(2);
+        orderInfoMapper.updateById(orderInfo);
     }
 }
